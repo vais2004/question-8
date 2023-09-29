@@ -1,36 +1,29 @@
-const showButton = document.querySelector("#show")
-const output = document.querySelector("#output")
+// Here's an API. It will give an error. Write a web app, call this API and read the error message. Show user the error message.
 
-let url = 'https://jsonplaceholder.typicode.com/todos/100'
+var outputOne = document.querySelector('#outputOne')
+var outputTwo = document.querySelector('#outputTwo')
+var btnAPI = document.querySelector('#btnAPI')
 
-const showHandler = () =>{
-    console.log('clicked')
-    fetch(url)
-    .then(response =>{
-        if(response.ok){
-            if(response.status === 200){
-                return response.json()
-            }
-        }else{
-            console.log("error", response)
-            output.innerText = 'an error occured '+ response.json().title
-        }
-    })
-    .then(json =>output.innerText = json.title)
-    .catch(error =>console.log(error))
+var serverURL = 'https://datausa.io/api/data'
 
+function callAPI() {
+  try {
+    fetch(serverURL)
+      .then((response) => 
+        // console.log(response)
+        response.json()
+      )
+      .then((json) => {
+        // console.log(json)
+        var data = json.error
+        outputOne.textContent = data
+        outputOne.style.color = 'red'
+      })
+  } catch (error) {
+    console.log("there's an error")
+    // console.log(error)
+    outputTwo.textContent = error
+  }
 }
 
-showButton.addEventListener('click', showHandler)
-
-
-
-
-
-
-
-
-
-
-
-
+btnAPI.addEventListener('click', callAPI)
